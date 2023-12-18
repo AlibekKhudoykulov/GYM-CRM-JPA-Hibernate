@@ -1,15 +1,14 @@
 package org.example.service.impl;
 
 import org.example.dto.TrainerDTO;
+import org.example.dto.UserDTO;
 import org.example.entity.Trainer;
 import org.example.entity.TrainingType;
 import org.example.entity.User;
 import org.example.repository.TrainerRepository;
-import org.example.repository.TrainingType;
 import org.example.repository.TrainingTypeRepository;
-import org.example.repository.UserRepository;
 import org.example.service.TrainerService;
-import org.example.util.UsernameAndPasswordGenerator;
+import org.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +24,17 @@ public class TrainerServiceImpl implements TrainerService {
     private TrainerRepository trainerRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private TrainingTypeRepository trainingTypeRepository;
 
-    @Autowired
-    private UsernameAndPasswordGenerator generator;
     @Override
     public String create(TrainerDTO trainerDTO) {
-        User user = new User(trainerDTO.getFirstName(), trainerDTO.getLastName());
-        user.setUsername(generator.generateUsername(user));
-        user.setPassword(generator.generateRandomPassword());
-        user.setActive(true);
-        User save = userRepository.save(user);
-
-        logger.info("Username and Password created: {} {}",user.getUsername(),user.getPassword());
+        User user = userService.create(
+                new UserDTO(
+                        trainerDTO.getFirstName(),
+                        trainerDTO.getLastName()));
 
         TrainingType trainingType = null;
         Optional<TrainingType> byId = trainingTypeRepository.findById(trainerDTO.getTrainingTypeId());
@@ -48,7 +42,7 @@ public class TrainerServiceImpl implements TrainerService {
            trainingType = byId.get();
         }
         Trainer trainer = new Trainer(
-                save,
+                user,
                 trainingType
         );
         logger.info("Creating Trainer: {} {}", trainer.getUser().getFirstName(), trainer.getUser().getLastName());
