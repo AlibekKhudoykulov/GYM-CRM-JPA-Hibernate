@@ -9,7 +9,7 @@ import java.util.Date;
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     private Trainer trainer;
