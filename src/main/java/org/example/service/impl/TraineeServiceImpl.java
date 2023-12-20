@@ -5,6 +5,7 @@ import org.example.dto.UserDTO;
 import org.example.entity.Trainee;
 import org.example.entity.User;
 import org.example.repository.TraineeRepository;
+import org.example.repository.UserRepository;
 import org.example.service.TraineeService;
 import org.example.service.UserService;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -23,6 +25,9 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public String create(TraineeDTO traineeDTO) {
@@ -82,22 +87,30 @@ public class TraineeServiceImpl implements TraineeService {
         return false;
     }
 
+    @Transactional
     @Override
     public boolean activateOrDeActivate(String username, String password, boolean isActive) {
         Trainee trainee = traineeRepository.getTraineeByUser_Username(username);
+
+        logger.info("Getting trainee for de/activation:{}",trainee);
+
         if (trainee != null && trainee.getUser().getPassword().equals(password)) {
-            traineeRepository.updateTraineeActivationStatus(username, isActive);
+            trainee.getUser().setActive(isActive);
+            userRepository.save(trainee.getUser());
+            logger.info("Updated trainee:{}", trainee);
             return true;
         }
         return false;
     }
 
+    @Transactional
     @Override
     public void delete(Integer id, String username, String password) {
         traineeRepository.findById(id)
                 .ifPresent(trainee -> {
                     if (trainee.getUser().getUsername().equals(username) && trainee.getUser().getPassword().equals(password)) {
                         traineeRepository.deleteById(id);
+                        userRepository.deleteById(trainee.getUser().getId()); // Assumes you have a UserRepository
                     }
                 });
     }
