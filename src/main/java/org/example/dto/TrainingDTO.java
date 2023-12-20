@@ -12,5 +12,5 @@ public class TrainingDTO {
         private String trainingName;
         private int trainingTypeId;
         private Date trainingDate;
-        private float trainingDuration;
+        private int trainingDuration;
 }
