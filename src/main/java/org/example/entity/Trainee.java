@@ -12,7 +12,7 @@ import java.util.Date;
 public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @OneToOne
     private User user;

@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @OneToOne
     private User user;

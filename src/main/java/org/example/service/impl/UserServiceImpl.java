@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(TrainerServiceImpl.class);
@@ -20,9 +22,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UsernameAndPasswordGenerator generator;
+
     @Override
     public User create(UserDTO userDTO) {
-        User user = new User(userDTO.getFirstName(),userDTO.getLastName());
+        User user = new User(userDTO.getFirstName(), userDTO.getLastName());
         user.setUsername(generator.generateUsername(user));
         user.setPassword(generator.generateRandomPassword());
         user.setActive(true);
@@ -30,8 +33,49 @@ public class UserServiceImpl implements UserService {
 
         User save = userRepository.save(user);
 
-        logger.info("User created: {} {}",user.getId(),user.getUsername());
+        logger.info("User created: {} {}", user.getId(), user.getUsername());
 
         return save;
+    }
+
+    @Override
+    public User edit(Integer id,UserDTO userDTO) {
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()){
+            User user = byId.get();
+            user.setFirstName(userDTO.getFirstName());
+            user.setLastName(userDTO.getLastName());
+            user.setUsername(generator.generateUsername(user));
+            logger.info("Updating User: {} {}", user.getFirstName(), user.getLastName());
+
+            User save = userRepository.save(user);
+
+            logger.info("User updated: {} {}", user.getId(), user.getUsername());
+            return save;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean checkingUsernameAndPassword(String username, String password) {
+        return userRepository.existsUserByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    public boolean changePassword(String username, String password, String newPassword) {
+        boolean b = checkingUsernameAndPassword(username, password);
+        if (!b) return false;
+
+        User byUsername = userRepository.findByUsername(username);
+        if (byUsername.getPassword().equals(password)) {
+            byUsername.setPassword(newPassword);
+        } else {
+            return false;
+        }
+
+        logger.info("Updating Password: {}{}", byUsername.getUsername(), byUsername.getPassword());
+        userRepository.save(byUsername);
+        logger.info("Updated Password: {}{}", byUsername.getUsername(), byUsername.getPassword());
+        return true;
     }
 }

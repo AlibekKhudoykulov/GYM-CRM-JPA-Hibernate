@@ -3,15 +3,13 @@ package org.example.util;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.Random;
 
 @Component
 public class UsernameAndPasswordGenerator {
+
     @Autowired
     private UserRepository userRepository;
 
