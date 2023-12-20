@@ -10,5 +10,7 @@
     <context:annotation-config/>
     <!-- Component scanning -->
     <context:component-scan base-package="org.example"/>
+    <!-- Simple implementation of the standard JDBC DataSource interface,
+          configuring the plain old JDBC DriverManager via bean properties -->
 
 </beans>

@@ -10,5 +10,7 @@ public interface TrainerService {
 
     boolean changePassword(String username,String password, String newPassword);
     boolean update(Integer id,String username, String password, TrainerDTO trainerDTO) throws Exception;
+    boolean activateOrDeActivate(String username,String password, boolean isActive);
+
 
 }

@@ -14,7 +14,7 @@ public class Training {
     @ManyToOne
     private Trainer trainer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Trainee trainee;
 
     @NotNull

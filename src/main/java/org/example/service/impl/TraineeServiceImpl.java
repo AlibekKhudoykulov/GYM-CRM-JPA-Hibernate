@@ -81,4 +81,24 @@ public class TraineeServiceImpl implements TraineeService {
         logger.info("Password is incorrect");
         return false;
     }
+
+    @Override
+    public boolean activateOrDeActivate(String username, String password, boolean isActive) {
+        Trainee trainee = traineeRepository.getTraineeByUser_Username(username);
+        if (trainee != null && trainee.getUser().getPassword().equals(password)) {
+            traineeRepository.updateTraineeActivationStatus(username, isActive);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void delete(Integer id, String username, String password) {
+        traineeRepository.findById(id)
+                .ifPresent(trainee -> {
+                    if (trainee.getUser().getUsername().equals(username) && trainee.getUser().getPassword().equals(password)) {
+                        traineeRepository.deleteById(id);
+                    }
+                });
+    }
 }

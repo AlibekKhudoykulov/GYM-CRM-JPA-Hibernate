@@ -96,4 +96,14 @@ public class TrainerServiceImpl implements TrainerService {
         logger.info("Password is incorrect");
         return false;
     }
+
+    @Override
+    public boolean activateOrDeActivate(String username, String password, boolean isActive) {
+        Trainer trainer = trainerRepository.getTrainerByUser_Username(username);
+        if (trainer != null && trainer.getUser().getPassword().equals(password)) {
+            trainerRepository.updateTrainerActivationStatus(username, isActive);
+            return true;
+        }
+        return false;
+    }
 }
