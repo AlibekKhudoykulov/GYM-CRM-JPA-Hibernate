@@ -2,7 +2,9 @@ package org.example.service;
 
 import org.example.dto.TraineeDTO;
 import org.example.entity.Trainee;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface TraineeService {
     String create(TraineeDTO traineeDTO);
     Trainee getByUsername(String username);
