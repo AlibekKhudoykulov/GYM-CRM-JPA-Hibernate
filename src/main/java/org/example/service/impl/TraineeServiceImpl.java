@@ -42,7 +42,7 @@ public class TraineeServiceImpl implements TraineeService {
                 traineeDTO.getDateOfBirth(),
                 traineeDTO.getAddress()
         );
-        logger.info("Creating Trainee: {}", trainee);
+        logger.debug("Creating Trainee: {}", trainee);
 
         Trainee save = traineeRepository.save(trainee);
 
@@ -74,7 +74,7 @@ public class TraineeServiceImpl implements TraineeService {
             traineeById.setAddress(traineeDTO.getAddress());
             traineeById.setDateOfBirth(traineeDTO.getDateOfBirth());
 
-            logger.info("Updating Trainee: {}", traineeById.getId());
+            logger.debug("Updating Trainee: {}", traineeById.getId());
 
             traineeRepository.save(traineeById);
 
@@ -92,7 +92,7 @@ public class TraineeServiceImpl implements TraineeService {
     public boolean activateOrDeActivate(String username, String password, boolean isActive) {
         Trainee trainee = traineeRepository.getTraineeByUser_Username(username);
 
-        logger.info("Getting trainee for de/activation:{}",trainee);
+        logger.debug("Getting trainee for de/activation:{}",trainee);
 
         if (trainee != null && trainee.getUser().getPassword().equals(password)) {
             trainee.getUser().setActive(isActive);

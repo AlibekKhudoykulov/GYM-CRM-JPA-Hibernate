@@ -28,4 +28,12 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    public User(String firstName, String lastName, String username, String password, boolean isActive) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.isActive = isActive;
+    }
 }

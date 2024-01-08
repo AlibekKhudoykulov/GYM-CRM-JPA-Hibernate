@@ -47,7 +47,7 @@ public class TrainerServiceImpl implements TrainerService {
                 user,
                 trainingType
         );
-        logger.info("Creating Trainer: {} {}", trainer.getUser().getFirstName(), trainer.getUser().getLastName());
+        logger.debug("Creating Trainer: {} {}", trainer.getUser().getFirstName(), trainer.getUser().getLastName());
 
         Trainer saveTrainer = trainerRepository.save(trainer);
 
@@ -85,7 +85,7 @@ public class TrainerServiceImpl implements TrainerService {
             }
             trainerById.setTrainingType(trainingType);
 
-            logger.info("Updating Trainer: {}", trainerById.getId());
+            logger.debug("Updating Trainer: {}", trainerById.getId());
 
             trainerRepository.save(trainerById);
 
