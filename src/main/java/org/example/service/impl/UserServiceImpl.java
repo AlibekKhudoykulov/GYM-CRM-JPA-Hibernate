@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(generator.generateUsername(user));
         user.setPassword(generator.generateRandomPassword());
         user.setActive(true);
-        logger.info("Creating User: {} {}", user.getFirstName(), user.getLastName());
+        logger.debug("Creating User: {} {}", user.getFirstName(), user.getLastName());
 
         User save = userRepository.save(user);
 
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setUsername(generator.generateUsername(user));
-            logger.info("Updating User: {} {}", user.getFirstName(), user.getLastName());
+            logger.debug("Updating User: {} {}", user.getFirstName(), user.getLastName());
 
             User save = userRepository.save(user);
 
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        logger.info("Updating Password: {}{}", byUsername.getUsername(), byUsername.getPassword());
+        logger.debug("Updating Password: {}{}", byUsername.getUsername(), byUsername.getPassword());
         userRepository.save(byUsername);
         logger.info("Updated Password: {}{}", byUsername.getUsername(), byUsername.getPassword());
         return true;

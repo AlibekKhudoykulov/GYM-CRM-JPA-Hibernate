@@ -49,14 +49,14 @@ public class TrainingServiceImpl implements TrainingService {
                 trainingDTO.getTrainingDate(),
                 trainingDTO.getTrainingDuration()
         );
-        logger.info("Creating Traning:{}",training);
+        logger.debug("Creating Traning:{}",training);
         Training save = trainingRepository.save(training);
         logger.info("Created Training:{}",save.getId());
     }
 
     @Override
     public List<Training> getTraineeTrainings(String username) {
-        logger.info("Finding trainee:{}",username);
+        logger.debug("Finding trainee:{}",username);
         Trainee traineeByUserUsername = traineeRepository.getTraineeByUser_Username(username);
         logger.info("Found trainee:{}",traineeByUserUsername.getId())
         ;
@@ -65,7 +65,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public List<Training> getTrainerTrainings(String username) {
-        logger.info("Finding trainer:{}",username);
+        logger.debug("Finding trainer:{}",username);
         Trainer trainerByUserUsername = trainerRepository.getTrainerByUser_Username(username);
         logger.info("Found trainer:{}",trainerByUserUsername.getId());
 
