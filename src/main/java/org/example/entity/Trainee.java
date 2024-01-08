@@ -2,6 +2,7 @@ package org.example.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.entity.template.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,10 +10,7 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
-public class Trainee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Trainee extends BaseEntity {
 
     @OneToOne
     private User user;

@@ -3,19 +3,19 @@ package org.example.entity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.example.entity.template.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Training {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Training extends BaseEntity {
 
     @ManyToOne
     private Trainer trainer;
@@ -35,17 +35,4 @@ public class Training {
     @NotNull
     private int TrainingDuration;
 
-    public Training(Trainer trainer,
-                    Trainee trainee,
-                    String trainingName,
-                    TrainingType trainingType,
-                    Date trainingDate,
-                    int trainingDuration) {
-        this.trainer = trainer;
-        this.trainee = trainee;
-        this.trainingName = trainingName;
-        this.trainingType = trainingType;
-        TrainingDate = trainingDate;
-        TrainingDuration = trainingDuration;
-    }
 }
